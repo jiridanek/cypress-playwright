@@ -1,11 +1,38 @@
 # cypress-playwright
-> Run Cypress tests using Playwright and Playwright tests using Cypress
+> Run Cypress tests and Page Objects using Playwright
 
-This package provides a bridge between Cypress and Playwright test runners. You can execute Cy tests using Pw and the inverse.
+This package provides a bridge between Cypress and Playwright test runners. You can execute Cy tests using Pw.
 
 ---
 Before using please read [this](https://cypresstips.substack.com/p/cypress-tips-april-2023) 🚨
 ---
+
+## Beyond Joke
+
+Despite the original implementation being an empty shell with no functionality,
+it got 40+ GitHub stars, which is way more than whatever I (@jiridanek) ever published on GitHub myself.
+This shows the motivating idea of the package is fairly sound,
+and some kind of a product-market fit should be there to be found.
+
+Cypress itself is aware of the gaps, and they were even working on Puppeteer integration,
+to, for example, let you juggle those browser tabs (see below).
+
+Anyway, this fork is a take on the original idea to make it work for a narrower use-case relevant to the fork owner.
+
+### What's wrong with Cypress?
+
+* https://docs.cypress.io/app/references/trade-offs
+* some limitations may get resolved in time
+  * https://github.com/cypress-io/cypress/issues/299
+  * https://github.com/cypress-io/cypress/issues/30756
+
+### What's wrong with Playwright?
+
+Playwright (by default) does not use real browsers, it uses its own browser implementations.
+* https://www.theautomatedtester.co.uk/blog/2023/the-login-test/
+
+Playwright positioning is similar to Cypress: it's mainly a developer productivity tool and less of a QA testing tool.
+Playwright is lot more QA department-friendly than Cypress, though.
 
 ## Install
 
@@ -19,39 +46,20 @@ $ yarn add -D cypress-playwright
 If using Cypress, add this package to your [Cypress support file](https://on.cypress.io/support-file)
 
 ```js
-// cypress/support/e2e.js
-import 'cypress-playwright'
+// TODO
 ```
 
-Voilá you can now run your Playwright tests in Cypress and Cypress tests in Playwright! Plus use `await` keyword with all Cypress commands:
+Voilá you can now run your Playwright tests in Cypress and Cypress tests in Playwright!
+Plus use `await` keyword with all Cypress commands:
 
 ```js
-// Cypress spec
-await it('works', async () => {
-  await cy.visit('/')
-  const $el = await cy.get('selector')
-  expect($el).to.be.visible
-  // or use "should" assertions
-  $el.should.be.visible
-})
+// TODO
 ```
 
 Want to open 2nd tab and test your chat application? No problem!
 
-```js
-// Cypress spec
-cy.get('selector button').click() // opens the second tab
-// use PW syntax to wait for the 2nd tab to open
-const secondPage = await context.waitForEvent('page')
-await newPage.waitForLoadState()
-// continue using Cy to test the second page
-cy.get('selector on the second tab').type('something')
-// now close the 2nd page and switch to the first
-cy.get('close button selector').click()
-// or simply use
-await newPage.close()
-// we are back on the first page!
-```
+* [From the Founder: Cypress’ Evolution, Vision, and Roadmap | Brian Mann](https://www.youtube.com/watch?v=Br7mjzHIII0&t=929s) (at 13:18)
+* https://github.com/cypress-io/cypress/blob/develop/npm/puppeteer/README.md
 
 ## Small print
 
